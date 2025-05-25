@@ -1,7 +1,5 @@
 package com.codesmart.myproj.entity;
 
-
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class Product {
@@ -47,7 +45,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product order = (Product) o;
-        return Objects.equals(getId(), order.getId()) && Objects.equals(getName(), order.getName()) && Objects.equals(getDescription(), order.getDescription()) && Objects.equals(getStatus(), order.getStatus()) && Objects.equals(getDate(), order.getDate());
+        return Objects.equals(getId(), order.getId()) && Objects.equals(getName(), order.getName()) && Objects.equals(getDescription(), order.getDescription());
     }
 
     @Override

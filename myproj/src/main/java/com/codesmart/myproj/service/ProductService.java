@@ -3,11 +3,13 @@ package com.codesmart.myproj.service;
 
 import com.codesmart.myproj.entity.Product;
 import com.sun.jdi.LongValue;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Service
 public class ProductService {
 
     List<Product> productList = new ArrayList<>(
