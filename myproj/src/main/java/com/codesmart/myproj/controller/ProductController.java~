@@ -28,7 +28,6 @@ public class ProductController {
     //delete a product
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id){
-        System.out.println("Deleting product");
        productService.deleteProduct(id);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -42,7 +43,7 @@ class MyprojApplicationTests {
 
 		Product mockProduct = new Product(1L,"Grape","This is a very nice grape");
 
-		Mockito.when(productService.getProduct(anyLong())).thenReturn(mockProduct);
+		Mockito.when(productService.getProduct(anyLong())).thenReturn(Optional.of(mockProduct));
 
 		mockMvc.perform(get("/product/1"))
 				.andExpect(status().isOk())
@@ -76,5 +77,4 @@ class MyprojApplicationTests {
 				.andExpect(jsonPath("$[2].name").value("Orange"))
 				.andExpect(jsonPath("$[2].description").value("This is a very nice Orange"));
 	}
-
 }
