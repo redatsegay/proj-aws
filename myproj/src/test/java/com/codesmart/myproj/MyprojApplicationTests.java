@@ -2,7 +2,7 @@ package com.codesmart.myproj;
 
 import com.codesmart.myproj.controller.ProductController;
 import com.codesmart.myproj.entity.Product;
-import com.codesmart.myproj.service.ProductService;
+import com.codesmart.myproj.service.IproductService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,28 +15,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@SpringBootTest
-//@ExtendWith()
 @WebMvcTest(ProductController.class)
 class MyprojApplicationTests {
 
 	@MockBean
-	private ProductService productService;
-
-	private ProductController productController;
+	//private ProductService productService;
+	private IproductService productService;
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	@Test
-	void contextLoads() {
-	}
 
 	@Test
 	void testingGetProductControllerMethod() throws Exception {
@@ -45,12 +39,13 @@ class MyprojApplicationTests {
 
 		Mockito.when(productService.getProduct(anyLong())).thenReturn(Optional.of(mockProduct));
 
-		mockMvc.perform(get("/product/1"))
+		mockMvc.perform(get("/product/display/1"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(1))
 				.andExpect(jsonPath("$.name").value("Grape"))
 				.andExpect(jsonPath("$.description").value("This is a very nice grape"));
 	}
+
 	@Test
 	void testingGetAllProductsControllerMethod() throws Exception {
 		List<Product> productList = new ArrayList<>(
@@ -63,7 +58,7 @@ class MyprojApplicationTests {
 
 		Mockito.when(productService.getProductList()).thenReturn(productList);
 
-		mockMvc.perform(get("/product/all"))
+		mockMvc.perform(get("/product/display/all"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id").value(1))
 				.andExpect(jsonPath("$[0].name").value("Grape"))
@@ -76,5 +71,18 @@ class MyprojApplicationTests {
 				.andExpect(jsonPath("$[2].id").value(3))
 				.andExpect(jsonPath("$[2].name").value("Orange"))
 				.andExpect(jsonPath("$[2].description").value("This is a very nice Orange"));
+	}
+
+	@Test
+	void testingDeleteProductControllerMethod() throws Exception {
+		Product mockProduct = new Product(1L, "Grape", "This is a very nice grape");
+
+		Mockito.when(productService.deleteProduct(anyLong())).thenReturn(Optional.of(mockProduct));
+
+		mockMvc.perform(delete("/product/delete/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Grape"))
+				.andExpect(jsonPath("$.description").value("This is a very nice grape"));
 	}
 }

@@ -1,7 +1,7 @@
 package com.codesmart.myproj.controller;
 
 import com.codesmart.myproj.entity.Product;
-import com.codesmart.myproj.service.ProductService;
+import com.codesmart.myproj.service.IproductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +13,23 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IproductService productService;
 
     @GetMapping("/display/{id}")
     public Optional<Product> getProduct(@PathVariable Long id){
-            return productService.getProduct(id);
+
+        return productService.getProduct(id);
     }
 
     @GetMapping("/display/all")
     public List<Product> getOrder() {
+
         return productService.getProductList();
     }
 
     //delete a product
     @DeleteMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable Long id){
-        System.out.println("Deleting product");
-       productService.deleteProduct(id);
+    public Optional<Product> deleteProduct(@PathVariable Long id){
+       return productService.deleteProduct(id);
     }
 }

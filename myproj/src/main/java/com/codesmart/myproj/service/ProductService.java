@@ -13,14 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService {
+public class ProductService implements IproductService{
 
     List<Product> productList = new ArrayList<>(
             Arrays.asList(
                     new Product(1L,"Grape","This is a very nice grape"),
                     new Product(2L,"Banana","This is a very nice Banana"),
                     new Product(3L,"Orange","This is a very nice Orange")
-
             ));
 
     //return a product by id
@@ -36,11 +35,15 @@ public class ProductService {
     }
 
     //delete a product
-    public void deleteProduct(Long id){
-        if(id >= productList.size())
-            throw new RuntimeException("Product with a given id does not exist");
+    public Optional<Product> deleteProduct(Long id){
+         System.out.println("Product removed from the list");
 
+        if(id >= productList.size())
+           return Optional.empty();
+
+        Product product = productList.get(id.intValue());
         productList.remove(id.longValue());
-        System.out.println("Product removed from the list");
+
+        return Optional.of(product);
     }
 }
